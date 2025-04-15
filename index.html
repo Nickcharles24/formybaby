@@ -5,26 +5,87 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Happy Birthday, Marin ❤️</title>
   <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 </head>
 <body class="homepage">
-  <div class="overlay"></div>
+  <div class="background-layer">
+    <div class="bg-overlay"></div>
+    <canvas id="petalCanvas"></canvas>
+  </div>
+
   <div class="container">
-    <h1>Happy Birthday to the Love of My Life, Marin Hall 🌸</h1>
+    <h1 class="title">Happy Birthday to the Love of My Life, <span class="highlight">Marin Hall 🌸</span></h1>
+
     <div class="quotes">
       <blockquote>“I am forever yours”</blockquote>
       <blockquote>“My beautiful soul mate”</blockquote>
       <blockquote>“Love from your good boy”</blockquote>
     </div>
-    <img src="assets/marin-feature.jpg" alt="Marin" class="feature-photo" />
-    <div class="letter">
+
+    <div class="feature-photo-wrapper">
+      <img src="assets/marin-feature.jpg" alt="Marin" class="feature-photo animated-frame" />
+    </div>
+
+    <div class="letter glass-card">
       <p>I still remember when I first met you in mid January last and I fell for you over the course of one night. In one night you had become my fixation and my obsession. Since that night in January, my fixation on you has morphed into a devotion to you and well… the obsession has never gone away.</p>
       <p>On a day to celebrate you, I want to tell you that I love you more than anything in the world. Since I’ve met you my world has turned upside down as I enjoy all that you and your love have to give. Your kindness, generosity, soulfulness, and beauty are unmatched; I truly believe that I’ve found an angel on earth.</p>
       <p>Today you turn 20 and next year you will be 21, 20 years from now you will be 40, 50 years from now you’ll be 70; it is the ultimate privilege in life to know that each time January 5th comes around, I will be celebrating you.</p>
       <p>Here’s to many more birthdays (and birthday posts), and most importantly here’s to the girl who makes my world spin.</p>
       <p class="signature">I love you Marin ❤️</p>
     </div>
-    <a href="timeline.html" class="btn">See Our Story 📅</a>
+
+    <a href="timeline.html" class="btn btn-glow">See Our Story 📅</a>
   </div>
+
+  <footer class="footer">
+    <p>Hand-crafted with endless love by your good boy 💖</p>
+  </footer>
+
   <script src="js/flowers.js"></script>
+  <script>
+    const canvas = document.getElementById('petalCanvas');
+    const ctx = canvas.getContext('2d');
+    let petals = [];
+    let width, height;
+
+    function resizeCanvas() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+
+    function createPetal() {
+      return {
+        x: Math.random() * width,
+        y: -20,
+        size: Math.random() * 10 + 5,
+        speedY: Math.random() * 1 + 0.5,
+        sway: Math.random() * 2 - 1
+      };
+    }
+
+    function updatePetals() {
+      ctx.clearRect(0, 0, width, height);
+      petals.forEach((p, i) => {
+        p.y += p.speedY;
+        p.x += p.sway;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255,192,203,0.8)';
+        ctx.fill();
+        if (p.y > height) petals[i] = createPetal();
+      });
+    }
+
+    function animate() {
+      updatePetals();
+      requestAnimationFrame(animate);
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    petals = Array.from({ length: 50 }, createPetal);
+    animate();
+  </script>
 </body>
 </html>
